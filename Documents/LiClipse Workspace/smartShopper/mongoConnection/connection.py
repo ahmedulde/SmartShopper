@@ -30,9 +30,29 @@ def linear_regression(x, y):
 if __name__ == '__main__':
     db = client.sgm_demo
     
-    all_user =  db.user.find({},{"_id":1}) 
+    all_user =  db.user.find({},{"_id":1})
     
-    x = 
+    all_item = db.item_details.find({},{"_id":1})
+    
+    purchase_dates = []
+    quantity = []
+    
+    for item in all_item:
         
+        printing all items
+        print(item)
+     
+        for user in all_user:
+            #printing  users
+            print(user)
+            
+            #'listbought':True, 'user':user['_id'],
+            all_purchsed_grocery = db.grocery_list.find({ 'listitems.itemref':item['_id']})
+            
+            for g in all_purchsed_grocery:
+                
+                #printing grocery list for the user
+                print(g)
+    
         
         
