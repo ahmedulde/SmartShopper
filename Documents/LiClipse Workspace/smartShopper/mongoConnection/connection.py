@@ -52,25 +52,24 @@ if __name__ == '__main__':
                 print(g['listitems.itemref'])
                 
     '''
-    
+    itemid = []   
     for item in all_item:
-        #print(item["_id"])
+        itemid.append(item["_id"])
         
-        for user in all_user:
-            items_purchased = []
-            
-            #printing  users
-            print(user)
-            #'listbought':True, 'user':user['_id'], 'listitems.itemref':item['_id']
-            all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})
-            
-            for grocery_list in all_purchsed_grocery:
-                items_purchased.append(grocery_list['listitems'])
-                
-                for items in items_purchased:
-                    for i in items:
-                        if i["itemref"] == item["_id"]:
-                            print("found")
+    for user in all_user:
+	items_purchased = []
+	#printing  users
+	print(user)
+	all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})    
+        for grocery_list in all_purchsed_grocery:
+	#print(grocery_list['listitems'])
+        	items_purchased.append(grocery_list['listitems'])           
+        	for items in items_purchased:
+			for i in items:
+				#print(i["itemref"])
+				#print(item["_id"])
+                	        if i["itemref"] in itemid:
+                	            print("found")
         
         
         
