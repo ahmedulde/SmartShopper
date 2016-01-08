@@ -5,7 +5,7 @@ Created on Dec 30, 2015
 '''
 import json
 from pymongo import MongoClient
-
+from collections import Counter
 client = MongoClient()
 
 client =  MongoClient('mongodb://admin:abcd1234@ds043002.mongolab.com:43002/sgm_demo')
@@ -36,41 +36,25 @@ if __name__ == '__main__':
     
     purchase_dates = []
     quantity = []
-    
     items = []
-    '''
-    for item in all_item:
-    
-        for user in all_user:
-            #printing  users
-            print(user)
-            #'listbought':True, 'user':user['_id'], 'listitems.itemref':item['_id']
-            all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})
-                
-            for g in all_purchsed_grocery:
-                
-                print(g['listitems.itemref'])
-                
-    '''
-    itemid = []   
+    itemid = []  
+    userItems = {}	 
+
     for item in all_item:
         itemid.append(item["_id"])
         
     for user in all_user:
 	items_purchased = []
-	#printing  users
-	print(user)
+	itemref = []
 	all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})    
         for grocery_list in all_purchsed_grocery:
-	#print(grocery_list['listitems'])
         	items_purchased.append(grocery_list['listitems'])           
         	for items in items_purchased:
 			for i in items:
-				#print(i["itemref"])
-				#print(item["_id"])
                 	        if i["itemref"] in itemid:
-                	            print("found")
-        
+				    itemref.append(i["itemref"])	
+        userItems[user['_id']]=Counter(itemref)
+    print(userItems)	
         
         
         
