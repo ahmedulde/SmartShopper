@@ -3,7 +3,7 @@ Created on Dec 30, 2015
 
 @author: ugupta
 '''
-
+import json
 from pymongo import MongoClient
 
 client = MongoClient()
@@ -37,22 +37,42 @@ if __name__ == '__main__':
     purchase_dates = []
     quantity = []
     
+    items = []
+    '''
     for item in all_item:
-        
-        printing all items
-        print(item)
-     
+    
         for user in all_user:
             #printing  users
             print(user)
-            
-            #'listbought':True, 'user':user['_id'],
-            all_purchsed_grocery = db.grocery_list.find({ 'listitems.itemref':item['_id']})
-            
+            #'listbought':True, 'user':user['_id'], 'listitems.itemref':item['_id']
+            all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})
+                
             for g in all_purchsed_grocery:
                 
-                #printing grocery list for the user
-                print(g)
+                print(g['listitems.itemref'])
+                
+    '''
+    itemid = []   
+    for item in all_item:
+        itemid.append(item["_id"])
+        
+    for user in all_user:
+	items_purchased = []
+	#printing  users
+	print(user)
+	all_purchsed_grocery = db.grocery_list.find({'listbought':True, 'user':user['_id']})    
+        for grocery_list in all_purchsed_grocery:
+	#print(grocery_list['listitems'])
+        	items_purchased.append(grocery_list['listitems'])           
+        	for items in items_purchased:
+			for i in items:
+				#print(i["itemref"])
+				#print(item["_id"])
+                	        if i["itemref"] in itemid:
+                	            print("found")
+        
+        
+        
+        
     
-        
-        
+    
